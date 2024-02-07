@@ -1,54 +1,44 @@
 import { galleryItems } from "./gallery-items.js";
 
 const galleryContainer = document.querySelector(".gallery");
-const galleryMarkup = createGalleryItemsMarkup(galleryItems);
+galleryContainer.innerHTML = galleryItems
+  .map(
+    (item) => `
+    <li class="gallery__item">
+        <a class="gallery__link" href="${item.original}">
+            <img
+                class="gallery__image"
+                src="${item.preview}"
+                data-source="${item.original}"
+                alt="${item.description}"
+            />
+        </a>
+    </li>
+`
+  )
+  .join("");
 
-galleryContainer.innerHTML = galleryMarkup;
-
-function createGalleryItemsMarkup(items) {
-  return items
-    .map(({ preview, original, description }) => {
-      return `
-<div class="gallery__item">
-  <a class="gallery__link" href="${original}">
-    <img
-      class="gallery__image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
-    />
-  </a>
-</div>`;
-    })
-    .join("");
-}
-
-galleryContainer.addEventListener("click", onGalleryItemClick);
-
-function onGalleryItemClick(event) {
+galleryContainer.addEventListener("click", (event) => {
   event.preventDefault();
-  const isGalleryImage = event.target.classList.contains("gallery__image");
-  if (!isGalleryImage) {
-    return;
-  }
+  if (!event.target.classList.contains("gallery__image")) return;
 
-  const source = event.target.dataset.source;
-  openModalWithImage(source);
-}
-
-function openModalWithImage(src) {
+  const imageSrc = event.target.dataset.source;
+  openModal(imageSrc);
+});
+function openModal(imageSrc) {
   const instance = basicLightbox.create(`
-    <img src="${src}" width="800" height="600">
+      <img src="${imageSrc}" width="800" height="600">
   `);
 
   instance.show();
 
-
-  window.addEventListener("keydown", onEscKeyPress);
-
-  function onEscKeyPress(event) {
-    if (event.key === "Escape") {
-      instance.close();
-      window.removeEventListener("keydown", onEscKeyPress); 
-  }
+  document.addEventListener(
+    "keydown",
+    (event) => {
+      if (event.key === "Escape") {
+        instance.close();
+      }
+    },
+    { once: true }
+  );
 }
