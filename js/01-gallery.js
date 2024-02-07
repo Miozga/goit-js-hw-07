@@ -22,11 +22,11 @@ function createGalleryItemsMarkup(items) {
     })
     .join("");
 }
-// Dodajemy event listener do kontenera galerii, aby obsłużyć kliknięcia
+
 galleryContainer.addEventListener("click", onGalleryItemClick);
 
 function onGalleryItemClick(event) {
-  event.preventDefault(); // Zablokowanie domyślnego zachowania linka
+  event.preventDefault();
   const isGalleryImage = event.target.classList.contains("gallery__image");
   if (!isGalleryImage) {
     return;
@@ -43,13 +43,12 @@ function openModalWithImage(src) {
 
   instance.show();
 
-  // Dodanie obsługi zamknięcia modalu klawiszem Escape
+
   window.addEventListener("keydown", onEscKeyPress);
 
   function onEscKeyPress(event) {
     if (event.key === "Escape") {
       instance.close();
-      window.removeEventListener("keydown", onEscKeyPress); // Usunięcie nasłuchiwania po zamknięciu
-    }
+      window.removeEventListener("keydown", onEscKeyPress); 
   }
 }
