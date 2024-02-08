@@ -25,20 +25,25 @@ galleryContainer.addEventListener("click", (event) => {
   const imageSrc = event.target.dataset.source;
   openModal(imageSrc);
 });
-function openModal(imageSrc) {
-  const instance = basicLightbox.create(`
-      <img src="${imageSrc}" width="800" height="600">
-  `);
 
-  instance.show();
 
   document.addEventListener(
     "keydown",
-    (event) => {
-      if (event.key === "Escape") {
-        instance.close();
-      }
-    },
-    { once: true }
+
+      const instance = basicLightbox.create(`
+          <div class="modal">
+              <p>A custom modal that has been styled independently. It's not part of basicLightbox, but perfectly shows its flexibility.</p>
+              <input placeholder="Type something">
+              <a href="#" class="close-modal">Close</a>
+          </div>
+      `, {
+          onShow: (instance) => {
+              instance.element().querySelector('.close-modal').onclick = instance.close;
+          }
+      });
+
+      instance.show();
+
+
   );
-}
+
