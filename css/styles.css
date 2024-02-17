@@ -42,3 +42,14 @@
 .gallery__link:hover {
   cursor: zoom-in;
 }
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgb(65, 0, 169);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
